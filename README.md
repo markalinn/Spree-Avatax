@@ -3,6 +3,7 @@ SpreeAvatax
 
 Spree extension to retrieve tax rates via Avalara's REST API.
 
+Thanks to Adam Fortuna for publishing his gem 'avalara' ( https://github.com/adamfortuna/avalara ) that this extension utilizes.
 
 Install
 =======
@@ -13,13 +14,11 @@ typical installation....
 * run bundle
 * run rails g spree_avatax:install
 
-Testing
--------
+Todo
+====
 
-Be sure to bundle your dependencies and then create a dummy test app for the specs to run against.
-
-    $ bundle
-    $ bundle exec rake test_app
-    $ bundle exec rspec spec
+* Clean Up
+* Tests
+* Everything else! :-)
 
 Copyright (c) 2012 XWC Solutions, released under the New BSD License
