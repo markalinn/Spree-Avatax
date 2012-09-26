@@ -18,7 +18,7 @@ invoice_line = Avalara::Request::Line.new(
   :destination_code => '1',
   :origin_code => '1',
   :qty => '25',
-  :amount => '100'
+  :amount => '70'
 )
 invoice_lines << invoice_line
 invoice_line = Avalara::Request::Line.new(
@@ -40,7 +40,7 @@ invoice_addresses << invoice_address
 
 invoice = Avalara::Request::Invoice.new(
   :customer_code => '1',
-  :doc_date => Date.parse("January 1, 2012")
+  :doc_date => Date.today
 )
 
 invoice.addresses = invoice_addresses
@@ -49,4 +49,4 @@ invoice.lines = invoice_lines
 puts invoice
 
 invoice_tax = Avalara.get_tax(invoice)
-puts invoice_tax.total_tax
+puts invoice_tax

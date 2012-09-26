@@ -60,7 +60,7 @@ module Spree
 
               invoice = Avalara::Request::Invoice.new(
                 :customer_code => order.email,
-                :doc_date => Date.parse("January 1, 2012")
+                :doc_date => Date.today
               )
 
               invoice.addresses = invoice_addresses
