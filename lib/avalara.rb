@@ -54,13 +54,24 @@ module Avalara
   end
   
   def self.geographical_tax(latitude, longitude, sales_amount)
-    raise NotImplementedError
-    uri = [configuration.endpoint, configuration.version, "tax", "#{latitude},#{longitude}", "get"].join["/"]
+    #raise NotImplementedError
+    uri = [endpoint, version, "tax", "#{latitude},#{longitude}", "get"].join("/")
 
     response = API.get(uri, 
       :headers => API.headers_for('0'),
-      :query => { :saleamount => sales_amount }
+      :query => { :saleamount => sales_amount },
+      :basic_auth => authentication
     )
+
+    return case response.code
+      when 200..299
+        Response::TaxDetail.new(response)
+      when 400..599
+        raise ApiError.new(Response::TaxDetail.new(response))
+      else
+        raise ApiError.new(response)
+    end
+    
   rescue Timeout::Error
     puts "Timed out"
     raise TimeoutError

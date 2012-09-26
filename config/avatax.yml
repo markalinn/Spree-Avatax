@@ -1,0 +1,11 @@
+common: &common
+  endpoint: 'https://development.avalara.net'
+  username: 'your username'
+  password: 'your password'
+
+test:
+  <<: *common
+development:
+  <<: *common
+production:
+  <<: *common
