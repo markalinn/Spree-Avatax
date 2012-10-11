@@ -38,12 +38,13 @@ module Spree
 
               matched_line_items.each do |matched_line_item|
                 line_count = line_count + 1
+                matched_line_amount = matched_line_item.price * matched_line_item.quantity
                 invoice_line = Avalara::Request::Line.new(
-                  :line_no => line_count,
+                  :line_no => line_count.to_s,
                   :destination_code => '1',
                   :origin_code => '1',
-                  :qty => matched_line_item.quantity,
-                  :amount => matched_line_item.price * matched_line_item.quantity
+                  :qty => matched_line_item.quantity.to_s,
+                  :amount => matched_line_amount.to_s
                 )
                 invoice_lines << invoice_line                
               end
@@ -51,10 +52,10 @@ module Spree
               invoice_addresses = []
               invoice_address = Avalara::Request::Address.new(
                 :address_code => '1',
-                :line_1 => order.ship_address.address1,
-                :line_2 => order.ship_address.address2,
-                :city => order.ship_address.city,
-                :postal_code => order.ship_address.zipcode
+                :line_1 => order.ship_address.address1.to_s,
+                :line_2 => order.ship_address.address2.to_s,
+                :city => order.ship_address.city.to_s,
+                :postal_code => order.ship_address.zipcode.to_s
               )
               invoice_addresses << invoice_address
 
@@ -68,8 +69,7 @@ module Spree
 
               invoice_tax = Avalara.get_tax(invoice)
               invoice_tax.total_tax
-            rescue => error
-              logger.debug 'AVATAX ERROR- ' + error
+            rescue
               matched_line_items = order.line_items.select do |line_item|
                 line_item.product.tax_category == rate.tax_category
               end
@@ -83,8 +83,7 @@ module Spree
             #Use Avatax lookup and if fails fall back to default Spree taxation rules
             begin
               #TODO-  Line Item Lookup
-            rescue => error
-              logger.debug 'AVATAX ERROR- ' + error
+            rescue
               if line_item.product.tax_category == rate.tax_category
                 deduced_total_by_rate(line_item.total, rate)
               else

@@ -32,8 +32,8 @@ invoice_lines << invoice_line
 
 invoice_address = Avalara::Request::Address.new(
   :address_code => '1',
-  :line_1 => "2081 Business Center Dr.",
-  :postal_code => "92612"
+  :line_1 => "333 West 3rd Street",
+  :postal_code => "90036"
 )
 invoice_addresses = []
 invoice_addresses << invoice_address
