@@ -59,9 +59,23 @@ module Spree
               )
               invoice_addresses << invoice_address
 
+
+              #Set DocType and Commit depending on order state
+              if order.payment_state = 'paid'
+                avalara_doctype = 'SalesInvoice'
+                avalara_commit = True
+              else
+                avalara_doctype = 'SalesOrder'
+                avalara_commit = False
+              end
+              
               invoice = Avalara::Request::Invoice.new(
                 :customer_code => order.email,
-                :doc_date => Date.today
+                :doc_date => Date.today,
+                :doc_type => avalara_doctype,
+                :company_code => AvataxConfig.company_code,
+                :doc_code => order.number,
+                :commit => avalara_commit
               )
 
               invoice.addresses = invoice_addresses

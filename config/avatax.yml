@@ -2,6 +2,7 @@ common: &common
   endpoint: 'https://development.avalara.net'
   username: 'your username'
   password: 'your password'
+  company_code: 'your company code'
 
 test:
   <<: *common
