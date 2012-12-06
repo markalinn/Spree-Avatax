@@ -59,15 +59,11 @@ module Spree
               )
               invoice_addresses << invoice_address
 
-
-              #Set DocType and Commit depending on order state
-              if order.payment_state = 'paid'
-                avalara_doctype = 'SalesInvoice'
-                avalara_commit = True
-              else
-                avalara_doctype = 'SalesOrder'
-                avalara_commit = False
-              end
+              #Log Order State
+              logger.debug order.state
+              
+              avalara_doctype = 'SalesOrder'
+              avalara_commit = 'false'
               
               invoice = Avalara::Request::Invoice.new(
                 :customer_code => order.email,
@@ -80,9 +76,17 @@ module Spree
 
               invoice.addresses = invoice_addresses
               invoice.lines = invoice_lines
+              
+              #Log request
+              logger.debug invoice.to_s
 
               invoice_tax = Avalara.get_tax(invoice)
+              
+              #Log Response
+              logger.debug invoice_tax.to_s
+              
               invoice_tax.total_tax
+
             rescue
               matched_line_items = order.line_items.select do |line_item|
                 line_item.product.tax_category == rate.tax_category

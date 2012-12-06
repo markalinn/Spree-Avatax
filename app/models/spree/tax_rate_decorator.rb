@@ -5,7 +5,6 @@ module Spree
       def create_label
         "Tax"
       end
-    
-    
+      
   end
 end
