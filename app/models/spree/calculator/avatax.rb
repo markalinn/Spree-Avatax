@@ -67,7 +67,7 @@ module Spree
                 :doc_date => Date.today,
                 :doc_type => 'SalesOrder',
                 :company_code => AvataxConfig.company_code,
-                :doc_code => order.number,
+                :doc_code => order.number
               )
 
               invoice.addresses = invoice_addresses
