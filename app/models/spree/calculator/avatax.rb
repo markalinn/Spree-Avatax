@@ -62,16 +62,12 @@ module Spree
               #Log Order State
               logger.debug order.state
               
-              avalara_doctype = 'SalesOrder'
-              avalara_commit = 'false'
-              
               invoice = Avalara::Request::Invoice.new(
                 :customer_code => order.email,
                 :doc_date => Date.today,
-                :doc_type => avalara_doctype,
+                :doc_type => 'SalesOrder',
                 :company_code => AvataxConfig.company_code,
                 :doc_code => order.number,
-                :commit => avalara_commit
               )
 
               invoice.addresses = invoice_addresses

@@ -21,7 +21,7 @@ module Spree
       #TODO-  Avatax Refunds!
 
       def commit_avatax_invoice
-#            begin
+            begin
               Avalara.password = AvataxConfig.password
               Avalara.username = AvataxConfig.username
               Avalara.endpoint = AvataxConfig.endpoint
@@ -57,16 +57,13 @@ module Spree
               )
               invoice_addresses << invoice_address
 
-              avalara_doctype = 'SalesInvoice'
-              avalara_commit = 'true'
-              
               invoice = Avalara::Request::Invoice.new(
                 :customer_code => self.email,
                 :doc_date => Date.today,
-                :doc_type => avalara_doctype,
+                :doc_type => 'SalesInvoice',
                 :company_code => AvataxConfig.company_code,
                 :doc_code => self.number,
-                :commit => avalara_commit
+                :commit => 'true'
               )
 
               invoice.addresses = invoice_addresses
@@ -82,10 +79,10 @@ module Spree
               logger.debug 'Avatax Response - '
               logger.debug invoice_tax.to_s
 
-#            rescue => error
-#              logger.debug 'Avatax Commit Failed!'
-#              logger.debug error.to_s
-#            end
+            rescue => error
+              logger.debug 'Avatax Commit Failed!'
+              logger.debug error.to_s
+            end
         
       end
 
