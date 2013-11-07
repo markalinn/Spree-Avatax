@@ -7,7 +7,7 @@ module Spree
       #and make sure it has a rate that uses Avatax
       rates = product.tax_category.tax_rates
       rates.each do |rate|
-        if rate.zone.include? (order.ship_address || order.bill_address)
+        if rate.zone.include?(order.ship_address || order.bill_address)
           response = true
           break
         end
